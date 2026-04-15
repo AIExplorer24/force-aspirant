@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORCE ASPIRANT — Maharashtra Police Training Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;1,700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #050608;
+  --deep: #080b10;
+  --surface: #0d1117;
+  --card: #111621;
+  --border: rgba(255,255,255,0.07);
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: rgba(201,168,76,0.15);
+  --red: #cc2200;
+  --red-bright: #ff2a00;
+  --blue-police: #1a3a6b;
+  --blue-light: #2255a4;
+  --white: #f0ece4;
+  --muted: #5a6070;
+  --mono: 'Share Tech Mono', monospace;
+  --display: 'Bebas Neue', sans-serif;
+  --body: 'Barlow Condensed', sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--body);
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* SCANLINE OVERLAY */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* GRAIN */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  animation: grain 0.5s steps(1) infinite;
+}
+@keyframes grain {
+  0%,100%{transform:translate(0,0)}
+  10%{transform:translate(-2%,-3%)}
+  20%{transform:translate(3%,1%)}
+  30%{transform:translate(-1%,4%)}
+  40%{transform:translate(2%,-2%)}
+  50%{transform:translate(-3%,2%)}
+  60%{transform:translate(1%,-4%)}
+  70%{transform:translate(-2%,3%)}
+  80%{transform:translate(3%,-1%)}
+  90%{transform:translate(-1%,2%)}
+}
+
+/* ═══════════════════════════════ NAV ═══════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  height: 64px;
+  background: rgba(5,6,8,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
+  opacity: 0.4;
+}
+
+.nav-left { display: flex; align-items: center; gap: 1.5rem; }
+
+.nav-badge {
+  width: 36px; height: 36px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  background: var(--gold-dim);
+}
+
+.nav-brand {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+  color: var(--white);
+  line-height: 1;
+}
+.nav-brand em { color: var(--gold); font-style: normal; }
+
+.nav-unit {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  border-left: 1px solid var(--border);
+  padding-left: 1rem;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-enlist {
+  background: var(--red);
+  color: white !important;
+  padding: 0.5rem 1.4rem;
+  border: none;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.2em !important;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: background 0.2s !important;
+}
+.nav-enlist:hover { background: var(--red-bright) !important; }
+.nav-enlist::after { display: none !important; }
+
+/* ═══════════════════════════════ HERO ═══════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 80px 3rem 4rem;
+}
+
+/* DIAGONAL BG PANELS */
+.hero-panel-left {
+  position: absolute;
+  top: 0; left: 0;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--deep) 0%, var(--surface) 100%);
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  z-index: 0;
+}
+
+.hero-panel-right {
+  position: absolute;
+  top: 0; right: 0;
+  width: 55%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse 80% 60% at 80% 40%, rgba(26,58,107,0.6) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 90% 80%, rgba(201,168,76,0.08) 0%, transparent 60%),
+    var(--black);
+  z-index: 0;
+}
+
+/* POLICE SHIELD SVG BG */
+.hero-shield-bg {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 420px;
+  height: 420px;
+  opacity: 0.04;
+  z-index: 1;
+}
+
+/* HEXAGON GRID */
+.hex-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0.3;
+}
+.hex-grid svg { width: 100%; height: 100%; }
+
+/* CORNER DECORATIONS */
+.corner-tl, .corner-br {
+  position: absolute;
+  width: 80px; height: 80px;
+  z-index: 2;
+}
+.corner-tl {
+  top: 90px; left: 3rem;
+  border-top: 2px solid var(--gold);
+  border-left: 2px solid var(--gold);
+  opacity: 0.5;
+}
+.corner-br {
+  bottom: 4rem; right: 3rem;
+  border-bottom: 2px solid var(--gold);
+  border-right: 2px solid var(--gold);
+  opacity: 0.5;
+}
+
+/* VERTICAL RULE */
+.hero-vline {
+  position: absolute;
+  left: 3rem;
+  top: 140px;
+  bottom: 4rem;
+  width: 1px;
+  background: linear-gradient(180deg, var(--gold) 0%, transparent 100%);
+  opacity: 0.3;
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 680px;
+  animation: heroIn 0.9s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+@keyframes heroIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.hero-classify {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.classify-line {
+  width: 40px;
+  height: 1px;
+  background: var(--red);
+}
+
+.classify-text {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--red);
+  text-transform: uppercase;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.hero-eyebrow span {
+  display: inline-block;
+  width: 5px; height: 5px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+h1 {
+  font-family: var(--display);
+  font-size: clamp(4rem, 9vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+  margin-bottom: 1.5rem;
+}
+
+h1 .l1 { display: block; color: var(--white); }
+h1 .l2 {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--gold);
+}
+h1 .l3 {
+  display: block;
+  color: var(--red);
+  font-size: 0.45em;
+  letter-spacing: 0.25em;
+  -webkit-text-stroke: 0;
+}
+
+.hero-desc {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: rgba(240,236,228,0.55);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.02em;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-enlist {
+  position: relative;
+  background: var(--red);
+  color: white;
+  padding: 0.9rem 2.5rem;
+  font-family: var(--display);
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  transition: all 0.25s;
+  overflow: hidden;
+}
+.btn-enlist::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.4s;
+}
+.btn-enlist:hover { background: var(--red-bright); transform: translateY(-2px); }
+.btn-enlist:hover::before { transform: translateX(100%); }
+
+.btn-programs {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+.btn-programs:hover { gap: 1rem; }
+.btn-arrow { font-size: 1.1rem; }
+
+/* HERO STATS */
+.hero-stats {
+  display: flex;
+  gap: 0;
+  margin-top: 3.5rem;
+  border: 1px solid var(--border);
+  width: fit-content;
+  background: rgba(13,17,23,0.8);
+  backdrop-filter: blur(10px);
+  animation: heroIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.15s both;
+}
+
+.hero-stat {
+  padding: 1.2rem 2rem;
+  position: relative;
+  text-align: center;
+}
+.hero-stat + .hero-stat {
+  border-left: 1px solid var(--border);
+}
+
+.stat-num {
+  font-family: var(--display);
+  font-size: 2.2rem;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  display: block;
+  line-height: 1;
+}
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* HERO RIGHT — VISUAL */
+.hero-visual {
+  position: absolute;
+  right: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  animation: heroRight 1s cubic-bezier(0.22,1,0.36,1) 0.2s both;
+}
+
+@keyframes heroRight {
+  from { opacity: 0; transform: translateY(-45%) translateX(30px); }
+  to { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+
+.visual-frame {
+  width: 340px;
+  aspect-ratio: 3/4;
+  border: 1px solid rgba(201,168,76,0.3);
+  position: relative;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--card) 100%);
+  overflow: hidden;
+}
+
+.visual-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(26,58,107,0.2) 0%, transparent 50%);
+}
+
+.visual-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.visual-icon-big { font-size: 5rem; filter: drop-shadow(0 0 30px rgba(201,168,76,0.3)); }
+
+.visual-name-plate {
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 0.5rem 1.5rem;
+  text-align: center;
+}
+.vnp-name {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+.vnp-rank {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* FRAME CORNERS */
+.fc { position: absolute; width: 20px; height: 20px; }
+.fc-tl { top: 8px; left: 8px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.fc-tr { top: 8px; right: 8px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+.fc-bl { bottom: 8px; left: 8px; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.fc-br { bottom: 8px; right: 8px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+
+.visual-id {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: rgba(90,96,112,0.5);
+  letter-spacing: 0.1em;
+}
+
+/* MARQUEE TICKER */
+.ticker {
+  background: var(--red);
+  padding: 0.6rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid rgba(255,42,0,0.3);
+  border-bottom: 1px solid rgba(255,42,0,0.3);
+}
+.ticker-inner {
+  display: inline-flex;
+  gap: 0;
+  animation: ticker 25s linear infinite;
+}
+.ticker-item {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.ticker-item::after {
+  content: '◆';
+  font-size: 0.5rem;
+  color: rgba(255,255,255,0.4);
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════ PROGRAMS ═══════════════════════════════ */
+#programs {
+  padding: 7rem 3rem;
+  background: var(--deep);
+  position: relative;
+  overflow: hidden;
+}
+
+#programs::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.sh-left {}
+
+.section-tag {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.section-tag::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--red);
+}
+
+h2 {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--white);
+}
+h2 em { color: var(--gold); font-style: normal; }
+
+.sh-right {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 360px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+}
+
+.prog-card {
+  background: var(--card);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+  border-right: 1px solid var(--border);
+}
+.prog-card:last-child { border-right: none; }
+
+.prog-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+
+.prog-card.featured {
+  background: linear-gradient(160deg, #0f1a2e 0%, var(--card) 100%);
+}
+.prog-card.featured::before { background: var(--gold); transform: scaleX(1); }
+
+.prog-card:hover { background: #141b27; transform: translateY(-4px); }
+.prog-card:hover::before { transform: scaleX(1); }
+
+.prog-num {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: rgba(90,96,112,0.5);
+  letter-spacing: 0.2em;
+  margin-bottom: 2rem;
+}
+
+.prog-icon-wrap {
+  width: 56px; height: 56px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,168,76,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  transition: background 0.3s;
+}
+.prog-card.featured .prog-icon-wrap { background: rgba(201,168,76,0.2); }
+.prog-card:hover .prog-icon-wrap { background: rgba(201,168,76,0.25); }
+
+.featured-badge {
+  position: absolute;
+  top: 1.5rem; right: 1.5rem;
+  background: var(--gold);
+  color: var(--black);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  padding: 0.25rem 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.prog-title {
+  font-family: var(--display);
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.prog-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+
+.prog-divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.prog-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+.prog-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: rgba(240,236,228,0.65);
+  font-weight: 400;
+}
+.prog-features li::before {
+  content: '';
+  width: 14px; height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.prog-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.prog-price {
+  font-family: var(--display);
+  font-size: 2.5rem;
+  color: var(--gold-light);
+  line-height: 1;
+}
+.prog-price sub {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  vertical-align: bottom;
+  margin-left: 0.3rem;
+}
+
+.prog-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 0.6rem 1.5rem;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  text-decoration: none;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: all 0.2s;
+  display: inline-block;
+}
+.prog-btn:hover { background: var(--gold); color: var(--black); }
+.prog-card.featured .prog-btn {
+  background: var(--gold);
+  color: var(--black);
+}
+.prog-card.featured .prog-btn:hover { background: var(--gold-light); }
+
+/* ═══════════════════════════════ UPCOMING CAMPS ═══════════════════════════════ */
+#camps {
+  padding: 7rem 3rem;
+  background: var(--surface);
+  position: relative;
+}
+
+.camps-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.camps-left {}
+
+.camps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 3rem;
+  border: 1px solid var(--border);
+}
+
+.camp-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.camp-row:last-child { border-bottom: none; }
+
+.camp-row::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transition: transform 0.3s;
+}
+.camp-row:hover { background: rgba(201,168,76,0.04); }
+.camp-row:hover::before { transform: scaleY(1); }
+
+.camp-date-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.8rem;
+  text-align: center;
+  min-width: 60px;
+}
+.cdb-day {
+  font-family: var(--display);
+  font-size: 1.8rem;
+  color: var(--gold);
+  line-height: 1;
+  display: block;
+}
+.cdb-month {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: block;
+}
+
+.camp-info {}
+.camp-name-main {
+  font-family: var(--body);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.camp-meta {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+}
+
+.camp-seats-badge {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.6rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.seats-low { background: rgba(204,34,0,0.15); color: var(--red); border: 1px solid rgba(204,34,0,0.3); }
+.seats-open { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+
+/* ═══════════════════════════════ BOOKING ═══════════════════════════════ */
+.booking-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--gold) 100%);
+}
+
+.bp-header {
+  padding: 2rem 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bp-title {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+.bp-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: #4ade80;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.bp-status-dot {
+  width: 6px; height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.bp-body { padding: 2.5rem; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-grid.full { grid-template-columns: 1fr; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+input, select, textarea {
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--white);
+  padding: 0.75rem 1rem;
+  font-family: var(--body);
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.03);
+}
+input::placeholder { color: rgba(90,96,112,0.6); }
+select option { background: var(--surface); }
+textarea { min-height: 80px; resize: vertical; }
+
+.submit-btn {
+  width: 100%;
+  background: var(--red);
+  border: none;
+  color: white;
+  padding: 1.1rem;
+  font-family: var(--display);
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  margin-top: 0.5rem;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.submit-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+  transform: translateX(-100%);
+}
+.submit-btn:hover { background: var(--red-bright); }
+.submit-btn:hover::after { animation: shimmer 0.5s ease; }
+@keyframes shimmer {
+  to { transform: translateX(100%); }
+}
+
+.success-msg {
+  display: none;
+  background: rgba(74,222,128,0.08);
+  border: 1px solid rgba(74,222,128,0.25);
+  color: #4ade80;
+  padding: 1rem 1.5rem;
+  margin-top: 1rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* ═══════════════════════════════ ABOUT ═══════════════════════════════ */
+#about {
+  padding: 7rem 3rem;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+#about::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+.about-bg-text {
+  position: absolute;
+  bottom: -2rem;
+  right: -1rem;
+  font-family: var(--display);
+  font-size: 18rem;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,168,76,0.04);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.about-frame {
+  position: relative;
+  width: 100%;
+}
+
+.about-photo {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: linear-gradient(160deg, var(--surface) 0%, var(--card) 100%);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(26,58,107,0.2) 0%, transparent 50%);
+}
+
+.about-photo-icon { font-size: 5rem; position: relative; z-index: 1; filter: drop-shadow(0 0 20px rgba(201,168,76,0.2)); }
+.about-photo-hint {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: rgba(90,96,112,0.5);
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+/* PHOTO FRAME DECORATIONS */
+.afc { position: absolute; width: 24px; height: 24px; }
+.afc-tl { top: 10px; left: 10px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.afc-tr { top: 10px; right: 10px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+.afc-bl { bottom: 10px; left: 10px; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.afc-br { bottom: 10px; right: 10px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+
+.about-floating-badge {
+  position: absolute;
+  bottom: -1.5rem;
+  right: -1.5rem;
+  background: var(--red);
+  padding: 1.2rem 1.5rem;
+  border: 2px solid var(--black);
+  text-align: center;
+  z-index: 2;
+}
+.afb-num {
+  font-family: var(--display);
+  font-size: 2rem;
+  color: white;
+  display: block;
+  line-height: 1;
+}
+.afb-text {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+}
+
+.about-text {}
+
+.about-text h2 { margin-bottom: 2rem; }
+
+.about-para {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(240,236,228,0.55);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+  letter-spacing: 0.01em;
+}
+
+.about-credentials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+
+.credential {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s;
+}
+.credential:hover { border-color: rgba(201,168,76,0.3); }
+
+.cred-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.cred-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(240,236,228,0.75);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════ FOOTER ═══════════════════════════════ */
+footer {
+  background: #030405;
+  border-top: 1px solid var(--border);
+  padding: 4rem 3rem 2rem;
+}
+
+.footer-top {
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.footer-brand { }
+.footer-logo {
+  font-family: var(--display);
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  margin-bottom: 0.4rem;
+}
+.footer-logo em { color: var(--gold); font-style: normal; }
+.footer-tagline {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.footer-nav { display: flex; gap: 2.5rem; list-style: none; }
+.footer-nav a {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-nav a:hover { color: var(--gold); }
+
+.footer-social { display: flex; gap: 0.75rem; }
+.social-btn {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: var(--muted);
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+}
+.social-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: rgba(90,96,112,0.4);
+  text-transform: uppercase;
+}
+
+.footer-id {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: rgba(90,96,112,0.3);
+}
+
+/* ═══════════════════════════════ RESPONSIVE ═══════════════════════════════ */
+@media (max-width: 1024px) {
+  .hero-visual { display: none; }
+  .programs-grid { grid-template-columns: 1fr; }
+  .prog-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .prog-card:last-child { border-bottom: none; }
+  .camps-container { grid-template-columns: 1fr; gap: 3rem; }
+  .about-container { grid-template-columns: 1fr; gap: 3rem; }
+  .about-frame { max-width: 380px; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 80px 1.5rem 4rem; }
+  h1 { font-size: 4rem; }
+  .hero-stats { flex-wrap: wrap; }
+  #programs, #camps, #about { padding: 5rem 1.5rem; }
+  .section-header { flex-direction: column; align-items: flex-start; }
+  footer { padding: 3rem 1.5rem 2rem; }
+  .footer-top { flex-direction: column; }
+  .footer-nav { flex-wrap: wrap; gap: 1.5rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .about-credentials { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-badge">🛡️</div>
+    <div>
+      <div class="nav-brand">FORCE <em>ASPIRANT</em></div>
+    </div>
+    <div class="nav-unit">Maharashtra Police Training</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#camps">Camps</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#camps" class="nav-enlist">Enlist Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-panel-left"></div>
+  <div class="hero-panel-right"></div>
+
+  <!-- HEXAGON BG -->
+  <div class="hex-grid">
+    <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="hexPat" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
+          <polygon points="30,2 58,17 58,47 30,62 2,47 2,17" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="0.8"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hexPat)"/>
+    </svg>
+  </div>
+
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="hero-vline"></div>
+
+  <!-- HERO RIGHT VISUAL -->
+  <div class="hero-visual">
+    <div class="visual-frame">
+      <div class="fc fc-tl"></div>
+      <div class="fc fc-tr"></div>
+      <div class="fc fc-bl"></div>
+      <div class="fc fc-br"></div>
+      <div class="visual-inner">
+        <div class="visual-icon-big">👮</div>
+        <div class="visual-name-plate">
+          <div class="vnp-name">YOUR NAME</div>
+          <div class="vnp-rank">Maharashtra Police Aspirant</div>
+        </div>
+      </div>
+      <div class="visual-id">ID: FA-2025-MH</div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-classify">
+      <div class="classify-line"></div>
+      <div class="classify-text">Maharashtra Police Aspirant Coaching</div>
+    </div>
+    <div class="hero-eyebrow">
+      <span></span>
+      Real Training. Real Results.
+    </div>
+    <h1>
+      <span class="l1">TRAIN</span>
+      <span class="l2">HARDER.</span>
+      <span class="l3">No Shortcuts. Only Discipline.</span>
+    </h1>
+    <p class="hero-desc">
+      Ground-level physical coaching for Maharashtra Police & Army aspirants. From 1600m running to full physical test prep — trained by a fellow aspirant who has walked this path.
+    </p>
+    <div class="hero-actions">
+      <a href="#camps" class="btn-enlist">Enlist Now →</a>
+      <a href="#programs" class="btn-programs">View Programs <span class="btn-arrow">→</span></a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Trained</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">12</span>
+        <span class="stat-label">Camps Done</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">85%</span>
+        <span class="stat-label">Pass Rate</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">Years Active</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Running Bootcamp — Pune · May 4</span>
+    <span class="ticker-item">Full Physical Prep — Nashik · May 10–11</span>
+    <span class="ticker-item">Limited Seats Available</span>
+    <span class="ticker-item">Online Monthly Plans Open</span>
+    <span class="ticker-item">Maharashtra Police Physical Test Specialists</span>
+    <span class="ticker-item">Running Bootcamp — Pune · May 4</span>
+    <span class="ticker-item">Full Physical Prep — Nashik · May 10–11</span>
+    <span class="ticker-item">Limited Seats Available</span>
+    <span class="ticker-item">Online Monthly Plans Open</span>
+    <span class="ticker-item">Maharashtra Police Physical Test Specialists</span>
+  </div>
+</div>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="section-header">
+    <div class="sh-left">
+      <p class="section-tag">Training Paths</p>
+      <h2>Choose Your <em>Mission</em></h2>
+    </div>
+    <div class="sh-right">
+      Structured programs designed specifically for Maharashtra Police & Army physical test standards. Pick your level, show up, and train hard.</div>
+  </div>
+
+  <div class="programs-grid">
+
+    <div class="prog-card">
+      <div class="prog-num">// 01</div>
+      <div class="prog-icon-wrap">🏃</div>
+      <div class="prog-title">RUNNING BOOTCAMP</div>
+      <p class="prog-desc">1600m, 800m and sprint training. Fix your pace, build your stamina, hit the cutoff.</p>
+      <div class="prog-divider"></div>
+      <ul class="prog-features">
+        <li>1-day intensive camp</li>
+        <li>Pacing & running technique</li>
+        <li>Personal timing feedback</li>
+        <li>Completion certificate</li>
+      </ul>
+      <div class="prog-footer">
+        <div class="prog-price">₹299 <sub>/ person</sub></div>
+        <a href="#camps" class="prog-btn">Book Camp</a>
+      </div>
+    </div>
+
+    <div class="prog-card featured">
+      <div class="featured-badge">Top Pick</div>
+      <div class="prog-num">// 02</div>
+      <div class="prog-icon-wrap">⚡</div>
+      <div class="prog-title">FULL PHYSICAL TEST PREP</div>
+      <p class="prog-desc">Complete Maharashtra Police physical test simulation — running, long jump, shot put, all events, all in one weekend.</p>
+      <div class="prog-divider"></div>
+      <ul class="prog-features">
+        <li>2-day weekend camp</li>
+        <li>All physical events covered</li>
+        <li>Mock test with full evaluation</li>
+        <li>Nutrition & recovery guidance</li>
+        <li>WhatsApp support group access</li>
+      </ul>
+      <div class="prog-footer">
+        <div class="prog-price">₹499 <sub>/ person</sub></div>
+        <a href="#camps" class="prog-btn">Book Camp</a>
+      </div>
+    </div>
+
+    <div class="prog-card">
+      <div class="prog-num">// 03</div>
+      <div class="prog-icon-wrap">📱</div>
+      <div class="prog-title">ONLINE MONTHLY PLAN</div>
+      <p class="prog-desc">Train from home with a structured weekly plan, video guidance, and personal progress tracking.</p>
+      <div class="prog-divider"></div>
+      <ul class="prog-features">
+        <li>4-week structured plan</li>
+        <li>Daily workout video guides</li>
+        <li>Weekly check-in call</li>
+        <li>Private Telegram group</li>
+      </ul>
+      <div class="prog-footer">
+        <div class="prog-price">₹399 <sub>/ month</sub></div>
+        <a href="#camps" class="prog-btn">Enroll Now</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CAMPS + BOOKING -->
+<section id="camps">
+  <div class="camps-container">
+
+    <div class="camps-left">
+      <p class="section-tag">Deployment Schedule</p>
+      <h2>Upcoming <em>Camps</em></h2>
+      <div class="camps-list">
+
+        <div class="camp-row">
+          <div class="camp-date-box">
+            <span class="cdb-day">04</span>
+            <span class="cdb-month">May</span>
+          </div>
+          <div class="camp-info">
+            <div class="camp-name-main">Running Bootcamp</div>
+            <div class="camp-meta">📍 Shivaji Stadium, Pune · 1-Day</div>
+          </div>
+          <span class="camp-seats-badge seats-low">8 Left</span>
+        </div>
+
+        <div class="camp-row">
+          <div class="camp-date-box">
+            <span class="cdb-day">10</span>
+            <span class="cdb-month">May</span>
+          </div>
+          <div class="camp-info">
+            <div class="camp-name-main">Full Physical Test Prep</div>
+            <div class="camp-meta">📍 Sports Ground, Nashik · 2-Day</div>
+          </div>
+          <span class="camp-seats-badge seats-low">12 Left</span>
+        </div>
+
+        <div class="camp-row">
+          <div class="camp-date-box">
+            <span class="cdb-day">18</span>
+            <span class="cdb-month">May</span>
+          </div>
+          <div class="camp-info">
+            <div class="camp-name-main">Running Bootcamp</div>
+            <div class="camp-meta">📍 Municipal Ground, Aurangabad · 1-Day</div>
+          </div>
+          <span class="camp-seats-badge seats-open">Open</span>
+        </div>
+
+        <div class="camp-row">
+          <div class="camp-date-box">
+            <span class="cdb-day">—</span>
+            <span class="cdb-month">Online</span>
+          </div>
+          <div class="camp-info">
+            <div class="camp-name-main">Monthly Training Plan</div>
+            <div class="camp-meta">📱 WhatsApp + Telegram · Start Anytime</div>
+          </div>
+          <span class="camp-seats-badge seats-open">Open</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BOOKING FORM -->
+    <div class="booking-panel">
+      <div class="bp-header">
+        <div class="bp-title">REGISTER NOW</div>
+        <div class="bp-status"><div class="bp-status-dot"></div>Registration Open</div>
+      </div>
+      <div class="bp-body">
+        <div class="form-grid">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="fname" placeholder="Your name">
+          </div>
+          <div class="field">
+            <label>Mobile Number</label>
+            <input type="tel" id="mobile" placeholder="9XXXXXXXXX">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label>District</label>
+            <input type="text" id="district" placeholder="Pune, Nashik, Mumbai...">
+          </div>
+          <div class="field">
+            <label>Age</label>
+            <input type="number" id="age" placeholder="18–30">
+          </div>
+        </div>
+        <div class="field">
+          <label>Select Program</label>
+          <select id="program">
+            <option value="">-- Choose Your Program --</option>
+            <option>Running Bootcamp — ₹299</option>
+            <option>Full Physical Test Prep — ₹499</option>
+            <option>Online Monthly Plan — ₹399</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Preferred Camp Date</label>
+          <select id="campdate">
+            <option value="">-- Select Date --</option>
+            <option>May 4, 2025 — Pune (Running Bootcamp)</option>
+            <option>May 10–11, 2025 — Nashik (Full Test Prep)</option>
+            <option>May 18, 2025 — Aurangabad (Running Bootcamp)</option>
+            <option>Online — Start Anytime</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Current 1600m Timing (Optional)</label>
+          <input type="text" placeholder="e.g. 7 min 30 sec">
+        </div>
+        <div class="field">
+          <label>Message (Optional)</label>
+          <textarea placeholder="Any questions or requirements..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitForm()">SUBMIT REGISTRATION</button>
+        <div class="success-msg" id="successMsg">
+          ✅ REGISTRATION CONFIRMED — WhatsApp details incoming
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-bg-text">FORCE</div>
+  <div class="about-container">
+    <div class="about-frame">
+      <div class="about-photo">
+        <div class="afc afc-tl"></div>
+        <div class="afc afc-tr"></div>
+        <div class="afc afc-bl"></div>
+        <div class="afc afc-br"></div>
+        <div class="about-photo-icon">👮</div>
+        <div class="about-photo-hint">Add Your Photo Here</div>
+      </div>
+      <div class="about-floating-badge">
+        <span class="afb-num">3+</span>
+        <span class="afb-text">Years on<br>the Ground</span>
+      </div>
+    </div>
+
+    <div class="about-text">
+      <p class="section-tag">The Trainer</p>
+      <h2>An Aspirant <em>For Aspirants</em></h2>
+      <p class="about-para">
+        I was exactly where you are — running on dusty grounds before sunrise, stressing over timings, failing rounds, and getting back up. I've been through the Maharashtra Police physical test grind firsthand.
+      </p>
+      <p class="about-para">
+        I built this platform because I know what real aspirants need — not gym theory, but ground-tested training by someone who has lived it. Every drill, every pace drill, every tip comes from actual experience.
+      </p>
+      <p class="about-para">
+        500+ aspirants trained. Camps held across Pune, Nashik, Aurangabad. And a YouTube channel documenting the real journey — no filters, no fake motivation.
+      </p>
+      <div class="about-credentials">
+        <div class="credential"><span class="cred-icon">🏃</span><span class="cred-text">Running Specialist</span></div>
+        <div class="credential"><span class="cred-icon">🛡️</span><span class="cred-text">Maharashtra Police Aspirant</span></div>
+        <div class="credential"><span class="cred-icon">🎥</span><span class="cred-text">YouTube Content Creator</span></div>
+        <div class="credential"><span class="cred-icon">💪</span><span class="cred-text">Physical Test Expert</span></div>
+        <div class="credential"><span class="cred-icon">📍</span><span class="cred-text">Camps Across Maharashtra</span></div>
+        <div class="credential"><span class="cred-icon">👥</span><span class="cred-text">500+ Students Trained</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">FORCE <em>ASPIRANT</em></div>
+      <div class="footer-tagline">By an Aspirant · For Aspirants · Maharashtra</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#camps">Book Camp</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#">YouTube</a></li>
+      <li><a href="#">Instagram</a></li>
+    </ul>
+    <div class="footer-social">
+      <a class="social-btn" href="#" title="YouTube">▶</a>
+      <a class="social-btn" href="#" title="Instagram">◈</a>
+      <a class="social-btn" href="#" title="WhatsApp">✆</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Force Aspirant · All Rights Reserved</div>
+    <div class="footer-id">MH-POLICE-ASPIRANT · UNIT FA-2025</div>
+  </div>
+</footer>
+
+<script>
+  function submitForm() {
+    const name = document.getElementById('fname').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const program = document.getElementById('program').value;
+    const date = document.getElementById('campdate').value;
+
+    if (!name || !mobile || !program || !date) {
+      const btn = document.querySelector('.submit-btn');
+      btn.textContent = '⚠ FILL ALL REQUIRED FIELDS';
+      btn.style.background = '#4a3000';
+      setTimeout(() => {
+        btn.textContent = 'SUBMIT REGISTRATION';
+        btn.style.background = '';
+      }, 2000);
+      return;
+    }
+
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = 'PROCESSING...';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    setTimeout(() => {
+      btn.textContent = 'SUBMIT REGISTRATION';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('fname').value = '';
+      document.getElementById('mobile').value = '';
+      document.getElementById('district').value = '';
+      document.getElementById('age').value = '';
+      document.getElementById('program').value = '';
+      document.getElementById('campdate').value = '';
+    }, 1800);
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.opacity = '1';
+        el.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.prog-card, .camp-row, .credential').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

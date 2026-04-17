@@ -1,0 +1,34 @@
+// api/create-order.js
+const Razorpay = require('razorpay');
+
+const razorpay = new Razorpay({
+  key_id: process.env.jf57hxQk7Y597OVNM1DJyV71,
+  key_secret: process.env.rzp_live_SefP1rNcJ2OXGz
+});
+
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const { amount, currency, receipt } = req.body;
+    
+    const options = {
+      amount: amount,
+      currency: currency || 'INR',
+      receipt: receipt || `receipt_${Date.now()}`,
+    };
+
+    const order = await razorpay.orders.create(options);
+    
+    res.status(200).json({
+      id: order.id,
+      amount: order.amount,
+      currency: order.currency,
+    });
+  } catch (error) {
+    console.error('Order creation error:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
